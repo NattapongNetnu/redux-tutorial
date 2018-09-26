@@ -1,0 +1,7 @@
+{
+    "extends": "rallycoding",
+    "rules": {
+        "react/require-extension": "off",
+        "import/no-unresolved": 2
+    }
+}
