@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, TextInput } from 'react-native'
 import styles from './styles'
 import StudentItem from './StudentItem'
 // import StudentService from './StudentListService'
-import * as newService from './Services/StudentListStaticService'
+// import * as newService from './Services/StudentListStaticService'
 import * as StudentService from './Services/StudentListServices'
 
 export default class StudentList extends React.Component {
@@ -13,6 +13,8 @@ export default class StudentList extends React.Component {
             studentList: [],
             nameInput: '',
             studentIdInput: '',
+            editName: '',
+            editStudentId: ''
         }
     }
     componentDidMount() {
@@ -31,7 +33,7 @@ export default class StudentList extends React.Component {
 
     addStudent = async () => {
         let { nameInput, studentIdInput } = this.state
-        let newStudentList = await StudentService.addStudent({name: nameInput, studentId: studentIdInput})
+        let newStudentList = await StudentService.addStudent({name: nameInput, studentId: studentIdInput, editStatus: false})
         this.setState({ studentList: newStudentList, nameInput: '', studentIdInput: '' })
 
     }
@@ -41,12 +43,28 @@ export default class StudentList extends React.Component {
         this.setState({ studentList: newStudentList})
     }
 
-    updateStudent = async (student) => {
-        console.log(student)
-        this.setState({ studentList: this.state.studentList.map((std) => std._id === student._id ? {...std, editStatus: !std.editStatus} : std) })
-        console.log(this.state.studentList)
-        // let newStudentList = await StudentService.updateStudent({name: "Steve Job", _id: student._id})
-        // this.setState({ studentList: newStudentList })
+    updateStudent = async ({ name, studentId, _id, editStatus }) => {
+        let updateStudentObj = {}
+        if (editStatus) {
+            let { editName, editStudentId } = this.state
+            updateStudentObj = {
+                name: editName,
+                studentId: editStudentId,
+                editStatus: false,
+                _id
+            }
+            let newStudentList = await StudentService.updateStudent(updateStudentObj)
+            this.setState({ studentList: newStudentList })
+        } else {
+            updateStudentObj = {
+                name,
+                studentId,
+                _id,
+                editStatus: !editStatus
+            }
+        }
+        let newStudentList = await StudentService.updateStudent(updateStudentObj)
+        this.setState({ studentList: newStudentList, editName: '', editStudentId: '' })
     }
 
     renderStdItem() {
@@ -58,6 +76,8 @@ export default class StudentList extends React.Component {
                         key={index}
                         onPress={(student) => this.updateStudent(student)}
                         handleRemove={(student) => this.deleteStudent(student)}
+                        editName={(editName) => this.setState({ editName })}
+                        editStudentId={(editStudentId) => this.setState({ editStudentId })}
                     />
                 )
             })

@@ -45,5 +45,6 @@ export const removeStudent = async (student) => {
 
 export const updateStudent = async (updateStudentData) => {
     let status = await requestHttp('PUT', "https://mobileparadigmtodoapi.herokuapp.com/todo", updateStudentData)
-    console.log(status)
+    let newStudentList = status ? await getAllStudent() : false
+    return newStudentList
 }
