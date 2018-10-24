@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native'
 
 const _getDataFromAsyncStorage = async () => {
     try {
-        let newList = await AsyncStorage.getItem('std')
+        let newList = await AsyncStorage.getItem('student')
         newList = JSON.parse(newList)
         return newList
     } catch (error) {
@@ -10,10 +10,10 @@ const _getDataFromAsyncStorage = async () => {
     }
 }
 
-const _setDataToAsyncStorage = async (stdObj) => {
+const _setDataToAsyncStorage = async (studentObj) => {
     try {
-        await AsyncStorage.setItem('std', JSON.stringify(stdObj));
-        return stdObj
+        await AsyncStorage.setItem('student', JSON.stringify(studentObj));
+        return studentObj
       } catch (error) {
         console.log(error)
         return false
@@ -21,41 +21,41 @@ const _setDataToAsyncStorage = async (stdObj) => {
 }
 
 export const initialDataInAsyncStorage = () => {
-    let stdObj = [
+    let studentObj = [
         {
             "name": "Nattapong Netnu",
-            "stdId": "56160112"
+            "studentId": "56160112"
         },
         {
             "name": "Katika Kongsil",
-            "stdId": "56160232"
+            "studentId": "56160232"
         }
     ]
-    _setDataToAsyncStorage(stdObj)
+    _setDataToAsyncStorage(studentObj)
 }
 
 export const getAllStudent = async () => {
-    let allStd = await _getDataFromAsyncStorage()
-    return allStd
+    let allStudent = await _getDataFromAsyncStorage()
+    return allStudent
 }
 
-export const addStudent = async (newStd) => {
-    let allStd = await _getDataFromAsyncStorage()
-    let newListStd = [...allStd, newStd]
-    newListStd = await _setDataToAsyncStorage(newListStd)
-    return newListStd
+export const addStudent = async (newstudent) => {
+    let allStudent = await _getDataFromAsyncStorage()
+    let newListstudent = [...allStudent, newstudent]
+    newListstudent = await _setDataToAsyncStorage(newListstudent)
+    return newListstudent
 }
 
 export const removeStudent = async (removeId) => {
-    let allStd = await _getDataFromAsyncStorage()
-    let newListStd = allStd.filter((std) => std.stdId !== removeId)
-    newListStd = await _setDataToAsyncStorage(newListStd)
-    return newListStd
+    let allStudent = await _getDataFromAsyncStorage()
+    let newListstudent = allStudent.filter((student) => student.studentId !== removeId)
+    newListstudent = await _setDataToAsyncStorage(newListstudent)
+    return newListstudent
 }
 
 export const updateStudent = async (updateStudent) => {
-    let allStd = await _getDataFromAsyncStorage()
-    let newListStd = allStd.map((std) => std.stdId === updateStudent.stdId ? updateStudent : std)
-    newListStd = await _setDataToAsyncStorage(newListStd)
-    return newListStd
+    let allStudent = await _getDataFromAsyncStorage()
+    let newListstudent = allStudent.map((student) => student.studentId === updateStudent.studentId ? updateStudent : student)
+    newListstudent = await _setDataToAsyncStorage(newListstudent)
+    return newListstudent
 } 
