@@ -1,37 +1,49 @@
 
-const requestHttp = async (method, uri, data = {}) => {
+const requestHttpGet = async (uri) => {
     try{
+        let response = await fetch(uri)
+        let responseJson = await response.json()
+        return responseJson
+    } catch(error) {
+        console.error(error)
+    }
+}
+
+const requestHttp = async (method, uri, data) => {
+    try {
         let response = await fetch(uri, {
             method,
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(data)
         })
-        let responseJson = await response.json()
-        return responseJson
-    } catch {
-        console.error(error);
+        return response.ok
+    } catch (error) {
+        console.error(error)
     }
 }
 
-export const getAllStd = async () => {
-    let res = await requestHttp('GET', "https://mobileparadigmtodoapi.herokuapp.com/todo")
-    console.log(res)
+
+export const getAllStudent = async () => {
+    let data = await requestHttpGet("https://mobileparadigmtodoapi.herokuapp.com/todo")
+    return data
 }
 
-export const addStd = async (newStd) => {
-    let res = await requestHttp('POST', "https://mobileparadigmtodoapi.herokuapp.com/todo", newStd)
-    console.log(res)
+export const addStudent = async (newStd) => {
+    let status = await requestHttp('POST', "https://mobileparadigmtodoapi.herokuapp.com/todo", newStd)
+    let newStudentList = status ? await getAllStudent() : false
+    return newStudentList
 }
 
-export const removeStd = async (id) => {
-    let res = await requestHttp('DELETE', "https://mobileparadigmtodoapi.herokuapp.com/todo", id)
-    console.log(res)
+export const removeStudent = async (student) => {
+    let status = await requestHttp('DELETE', "https://mobileparadigmtodoapi.herokuapp.com/todo", { _id: student._id })
+    let newStudentList = status ? await getAllStudent() : false
+    return newStudentList
 }
 
-export const updateStd = async (updateStdData) => {
-    let res = await requestHttp('PUT', "https://mobileparadigmtodoapi.herokuapp.com/todo", updateStdData)
-    console.log(res)
+export const updateStudent = async (updateStudentData) => {
+    let status = await requestHttp('PUT', "https://mobileparadigmtodoapi.herokuapp.com/todo", updateStudentData)
+    console.log(status)
 }

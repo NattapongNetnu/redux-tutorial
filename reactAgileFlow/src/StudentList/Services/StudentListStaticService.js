@@ -34,28 +34,28 @@ export const initialDataInAsyncStorage = () => {
     _setDataToAsyncStorage(stdObj)
 }
 
-export const getAllStd = async () => {
+export const getAllStudent = async () => {
     let allStd = await _getDataFromAsyncStorage()
     return allStd
 }
 
-export const addStd = async (newStd) => {
+export const addStudent = async (newStd) => {
     let allStd = await _getDataFromAsyncStorage()
     let newListStd = [...allStd, newStd]
     newListStd = await _setDataToAsyncStorage(newListStd)
     return newListStd
 }
 
-export const removeStd = async (removeId) => {
+export const removeStudent = async (removeId) => {
     let allStd = await _getDataFromAsyncStorage()
     let newListStd = allStd.filter((std) => std.stdId !== removeId)
     newListStd = await _setDataToAsyncStorage(newListStd)
     return newListStd
 }
 
-export const updateStd = async (updateStd) => {
+export const updateStudent = async (updateStudent) => {
     let allStd = await _getDataFromAsyncStorage()
-    let newListStd = allStd.map((std) => std.stdId === updateStd.stdId ? updateStd : std)
+    let newListStd = allStd.map((std) => std.stdId === updateStudent.stdId ? updateStudent : std)
     newListStd = await _setDataToAsyncStorage(newListStd)
     return newListStd
 } 

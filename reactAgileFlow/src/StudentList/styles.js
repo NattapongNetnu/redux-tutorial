@@ -17,4 +17,10 @@ export default styles = StyleSheet.create({
       color: '#333333',
       marginBottom: 5,
     },
+    textInput: {
+      height: 20, 
+      borderColor: 'gray', 
+      borderWidth: 1,
+      alignSelf: 'auto'
+    }
   });

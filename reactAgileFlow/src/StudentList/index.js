@@ -1,71 +1,92 @@
 import React from 'react'
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity, TextInput } from 'react-native'
 import styles from './styles'
 import StudentItem from './StudentItem'
 // import StudentService from './StudentListService'
-import * as newService from './StudentListStaticService'
+import * as newService from './Services/StudentListStaticService'
+import * as StudentService from './Services/StudentListServices'
 
 export default class StudentList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            stdList: []
+            studentList: [],
+            nameInput: '',
+            studentIdInput: '',
         }
     }
     componentDidMount() {
-        newService.initialDataInAsyncStorage()
-        this.getAllStd()
+        this.getAllStudentFromAPI()
     }
 
-    checkSaveDataStatus(result) {
-        if (result) {
-            this.setState({stdList: result})
-        } else {
-            console.log("failed to add std")
-        }
-    }
-
-    getAllStd = async () => {
-        let allStd = await newService.getAllStd()
+    getAllStudent = async () => {
+        let allStd = await newService.getAllStudent()
         this.setState({ stdList: allStd})
     }
 
+    getAllStudentFromAPI = async () => {
+        let studentList = await StudentService.getAllStudent()
+        this.setState({ studentList })
+    }
+
     addStudent = async () => {
-        let newList = await newService.addStd({name: "Bill Gate", stdId: "56160001"})
-        this.checkSaveDataStatus(newList)
+        let { nameInput, studentIdInput } = this.state
+        let newStudentList = await StudentService.addStudent({name: nameInput, studentId: studentIdInput})
+        this.setState({ studentList: newStudentList, nameInput: '', studentIdInput: '' })
+
     }
-    deleteStudent = async () => {
-        let newList = await newService.removeStd("56160112")
-        this.checkSaveDataStatus(newList)
+
+    deleteStudent = async (student) => {
+        let newStudentList = await StudentService.removeStudent(student)
+        this.setState({ studentList: newStudentList})
     }
-    updateStudent = async () => {
-        let newList = await newService.updateStd({name: "Steve Job", stdId: "56160001"})
-        this.checkSaveDataStatus(newList)
+
+    updateStudent = async (student) => {
+        console.log(student)
+        this.setState({ studentList: this.state.studentList.map((std) => std._id === student._id ? {...std, editStatus: !std.editStatus} : std) })
+        console.log(this.state.studentList)
+        // let newStudentList = await StudentService.updateStudent({name: "Steve Job", _id: student._id})
+        // this.setState({ studentList: newStudentList })
     }
+
     renderStdItem() {
         return (
-            this.state.stdList.map((std, index) => {
+            this.state.studentList.map((student, index) => {
                 return (
-                    <StudentItem std={std} key={index}/>
+                    <StudentItem 
+                        student={student}
+                        key={index}
+                        onPress={(student) => this.updateStudent(student)}
+                        handleRemove={(student) => this.deleteStudent(student)}
+                    />
                 )
             })
         )
     }
+
     render() {
         console.log(this.state)
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>Hello Student</Text>
-                {this.renderStdItem()}
+                <TextInput 
+                    style={styles.textInput}
+                    placeholder="Enter Name and Lastname"
+                    onChangeText={(nameInput) => this.setState({ nameInput })}
+                    value={this.state.nameInput}
+                />
+                <TextInput 
+                    style={styles.textInput}
+                    placeholder="Enter Student ID"
+                    onChangeText={(studentIdInput) => this.setState({ studentIdInput })}
+                    value={this.state.studentIdInput}
+                />
+                
                 <TouchableOpacity onPress={() => this.addStudent()}>
-                    <Text>add std</Text>
+                    <Text>add student</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.deleteStudent()}>
-                    <Text>delete std</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.updateStudent()}>
-                    <Text>update std</Text>
-                </TouchableOpacity>
+
+                {this.renderStdItem()}
             </View>
         )
     }

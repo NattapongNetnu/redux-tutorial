@@ -34,26 +34,26 @@ export default class StudentService {
         ]
         _setDataToAsyncStorage(stdObj)
     }
-    getAllStd = async () => {
+    getAllStudent = async () => {
         let data = await _getDataFromAsyncStorage()
         return data
     }
 
-    addStd = async (newStd) => {
+    addStudent = async (newStd) => {
         let allStd = await _getDataFromAsyncStorage()
         let newStdList = [...allStd, newStd]
         newStdList = await _setDataToAsyncStorage(newStdList)
         return newStdList
     }
 
-    updateStd = async (updateStd) => {
+    updateStudent = async (updateStudent) => {
         let allStd = await _getDataFromAsyncStorage()
-        let newStdList = allStd.map((std) => std.stdId === updateStd.stdId ? updateStd : std)
+        let newStdList = allStd.map((std) => std.stdId === updateStudent.stdId ? updateStudent : std)
         newStdList= await _setDataToAsyncStorage(newStdList)
         return newStdList
     }
 
-    removeStd = async (stdId) => {
+    removeStudent = async (stdId) => {
         let allStd = await _getDataFromAsyncStorage()
         let newStdList = allStd.filter((std) => std.stdId !== stdId)
         newStdList = await _setDataToAsyncStorage(newStdList)
