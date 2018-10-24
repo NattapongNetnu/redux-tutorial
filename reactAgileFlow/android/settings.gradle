@@ -1,0 +1,3 @@
+rootProject.name = 'reactAgileFlow'
+
+include ':app'
