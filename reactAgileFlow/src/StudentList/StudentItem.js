@@ -5,7 +5,7 @@ import styles from './styles'
 const renderItem = ({ student, onPress, handleRemove, editName, editStudentId }) => {
     if (student.editStatus) {
         return (
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={styles.editContainer}>
                 <TextInput
                     style={styles.textInput}
                     placeholder="Enter Name and Lastname"
@@ -23,9 +23,9 @@ const renderItem = ({ student, onPress, handleRemove, editName, editStudentId })
         )
     }
     return (
-        <View style={{ flexDirection: "row" }}>
+        <View style={styles.itemContainer}>
             <TouchableOpacity onPress={() => onPress(student)}>
-                <View style={{ flexDirection: "row" }}>
+                <View style={styles.contentContainer}>
                     <Text>{student.studentId} </Text>
                     <Text>{student.name}</Text>
                 </View>

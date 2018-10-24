@@ -88,7 +88,7 @@ export default class StudentList extends React.Component {
         console.log(this.state)
         return (
             <View style={styles.container}>
-                <Text style={styles.welcome}>Hello Student</Text>
+                <Text style={styles.mainText}>Hello Student</Text>
                 <TextInput 
                     style={styles.textInput}
                     placeholder="Enter Name and Lastname"

@@ -7,7 +7,7 @@ export default styles = StyleSheet.create({
       alignItems: 'center',
       backgroundColor: '#F5FCFF',
     },
-    welcome: {
+    mainText: {
       fontSize: 20,
       textAlign: 'center',
       margin: 10,
@@ -21,6 +21,16 @@ export default styles = StyleSheet.create({
       height: 20, 
       borderColor: 'gray', 
       borderWidth: 1,
-      alignSelf: 'auto'
+      alignSelf: 'auto',
+    },
+    editContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    contentContainer: {
+      flexDirection: 'row'
+    },
+    itemContainer: {
+      flexDirection: 'row'
     }
   });
