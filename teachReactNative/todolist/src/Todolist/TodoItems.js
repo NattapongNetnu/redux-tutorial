@@ -1,11 +1,15 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import Card from '../common/Card'
 
-export default TodoItems = (props) => {
+export default TodoItems = ({ student, removeStudent }) => {
     return (
         <Card>
-            <Text>{props.textTask}</Text>
+            <Text>{student.studentId}</Text>
+            <Text>{student.name}</Text>
+            <TouchableOpacity onPress={() => removeStudent(student)}>
+                <Text>remove</Text>
+            </TouchableOpacity>
         </Card>
     )
 }
